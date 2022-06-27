@@ -1,9 +1,9 @@
 """
 Ticker: TQQQ, TMF
 Threshold: 1 to 10 percent
-Amount: 10 ~ 90 percent
+AmountRate: 10 ~ 90 percent
 Price: Open, Close
-Fee: 0.07 percent
+FeeRate: 0.07 percent
 """
 
 import pandas as pd
@@ -12,8 +12,8 @@ dfQ = pd.read_csv("TQQQ.csv")
 dfM = pd.read_csv("TMF.csv")
 
 threshold= [(1/100) * x for x in range(3,4)]
-amount = [(1/100) * x for x in range(10,11)]
-fee = 0.0007
+amountRate = [(1/100) * x for x in range(10,11)]
+feeRate = 0.0007
 
 capital = 10000
 
@@ -21,7 +21,7 @@ capital = 10000
 #print(dfM.head(7))
 
 for t in threshold:
-    for a in amount:
+    for a in amountRate:
         srQ = dfQ.iloc[0]
         tPriceQ = srQ[4]
         srM = dfM.iloc[0]
@@ -45,8 +45,18 @@ for t in threshold:
                 date = srQ[0]
                 srM = dfM.iloc[i]
                 priceM = srM[p]
+
                 gap = abs(priceQ/tPriceQ - priceM/tPriceM)
                 if gap > t:
+                    if priceQ/tPriceQ - priceM/tPriceM:
+                        amountQ = int(stkQ * amountRate)
+                        stkQ -= amountQ
+                        cash += (priceQ * amountQ) * (1 - feeRate)
+                        amountM = int(cash / (1 + feeRate) / priceM)
+                        stkM += amountM
+                        cash -= (priceM * amountM) * (1 + feeRate)
+
+
                     print('date', date, 'priceQ', priceQ, 'priceM', priceM, 'gap', gap)
                     tPriceQ = priceQ
                     tPriceM = priceM
