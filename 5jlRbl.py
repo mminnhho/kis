@@ -2,7 +2,7 @@
 Ticker: TQQQ, TMF
 Threshold: 1 to 10 percent
 AmountRate: 10 ~ 90 percent
-Price: Open, Close
+=> Price: Open
 FeeRate: 0.07 percent
 => Rebalance at Threshold!
 """
@@ -10,10 +10,10 @@ FeeRate: 0.07 percent
 import pandas as pd
 
 dfQ = pd.read_csv("TQQQ.csv")
-dfM = pd.read_csv("TMF.csv")
+dfM = pd.read_csv("UGL.csv")
 
-threshold= [(1/100) * x for x in range(26,27)]
-amountRate = [(1/100) * x for x in range(100,101)]
+threshold= [(1/100) * x for x in range(1,101)]
+amountRate = [(1/100) * x for x in range(1,101)]
 feeRate = 0.0007
 
 capital = 10000
@@ -44,7 +44,8 @@ for t in threshold:
 
         for i in range(1,len(dfQ)):
 #        for i in range(1,50):
-            for p in ['Open','Close']:
+            for p in ['Open']:
+#            for p in ['Open', 'Close']:
                 srQ = dfQ.iloc[i]
                 priceQ = srQ[p]
                 date = srQ[0]
@@ -72,7 +73,8 @@ for t in threshold:
                     tPriceQ = priceQ
                     tPriceM = priceM
 
-                    print(date, priceQ, priceM, stkQ, stkM, cash, priceQ*stkQ + priceM*stkM + cash)
+                    if len(threshold)==1 and len(amountRate)==1:
+                        print(date, priceQ, priceM, stkQ, stkM, cash, priceQ*stkQ + priceM*stkM + cash)
 
                 bal = priceQ*stkQ + priceM*stkM + cash
 
@@ -91,4 +93,4 @@ for t in threshold:
 
 print('balMax', balMax, 'tMax', tMax, 'arMax', arMax)
 
-dfO.to_csv('26juRbl.csv', index=True)
+dfO.to_csv('5jlRbl.csv', index=True)
