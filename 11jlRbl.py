@@ -12,7 +12,7 @@ import pandas as pd
 dfQ = pd.read_csv("tqqq_10min.csv")
 dfM = pd.read_csv("tmf_10min.csv")
 
-threshold= [(1/100) * x for x in range(31,32)]
+threshold= [(1/1000) * x for x in range(35,36)]
 amountRate = [(1/100) * x for x in range(100,101)]
 feeRate = 0.0007
 
@@ -53,7 +53,7 @@ for t in threshold:
                 srM = dfM.iloc[i]
                 priceM = srM[p]
 
-                gap = priceQ/tPriceQ - priceM/tPriceM
+                gap = (priceQ*tPriceM - priceM*tPriceQ) / (priceQ*tPriceM + priceM*tPriceQ)
 
 #                if len(threshold)==1 and len(amountRate)==1:
 #                    print(gap)
@@ -77,7 +77,7 @@ for t in threshold:
                 tPriceQ = priceQ
                 tPriceM = priceM
 
-                if len(threshold)==1 and len(amountRate)==1:
+                if ((gap > t) or (gap < -t)) and (len(threshold)==1 and len(amountRate)==1):
                     print(date, "%5.2f"%(priceQ), "%5.2f"%(priceM), "%4d"%(stkQ), "%4d"%(stkM), "%5.2f"%(cash), "%5d"%(priceQ*stkQ + priceM*stkM + cash))
 
                 bal = priceQ*stkQ + priceM*stkM + cash
@@ -90,9 +90,9 @@ for t in threshold:
                     tMax = t
                     arMax = a
 
-        print('taMax', "%8d"%(taMax), 'bal', "%8d"%(bal), 't', "%4.2f"%(t), 'a', "%4.2f"%(a))
+        print('taMax', "%8d"%(taMax), 'bal', "%8d"%(bal), 't', "%5.3f"%(t), 'a', "%4.2f"%(a))
 
-        dfT = pd.DataFrame({'t':"%4.2f"%(t), 'a':"%4.2f"%(a), 'taMax':"%8d"%(taMax), 'bal':"%8d"%(bal)}, index=[0])
+        dfT = pd.DataFrame({'t':"%5.3f"%(t), 'a':"%4.2f"%(a), 'taMax':"%8d"%(taMax), 'bal':"%8d"%(bal)}, index=[0])
         dfO = pd.concat([dfO,dfT], ignore_index=True, axis=0)
 
         if balCurr < bal:
@@ -101,7 +101,7 @@ for t in threshold:
             aCurr =a
 
 if len(threshold)!=1 or len(amountRate)!=1:
-    print('balCurr', "%8d"%(balCurr), 'tCurr', "%4.2f"%(tCurr), 'aCurr', "%4.2f"%(aCurr))
-    print('balMax', "%8d"%(balMax), 'tMax', "%4.2f"%(tMax), 'arMax', "%4.2f"%(arMax))
+    print('balCurr', "%8d"%(balCurr), 'tCurr', "%5.3f"%(tCurr), 'aCurr', "%4.2f"%(aCurr))
+    print('balMax', "%8d"%(balMax), 'tMax', "%5.3f"%(tMax), 'arMax', "%4.2f"%(arMax))
 
-dfO.to_csv('5jlRbl.csv', index=True)
+dfO.to_csv('11jlRbl.csv', index=True)
