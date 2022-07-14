@@ -9,15 +9,16 @@ FeeRate: 0.07 percent
 
 import pandas as pd
 
-file = open('transactionLog.txt', 'w')  # opening a file
-
 dfQ = pd.read_csv("tqqq.csv")
-dfM = pd.read_csv("tmf.csv")
+dfM = pd.read_csv("soxl.csv")
 
-threshold= [(1/1000) * x for x in range(1000,2001,10)]
+threshold= [(1/1000) * x for x in range(249,250)]
 amountRate = [(1/100) * x for x in range(100,101)]
-feeRate = 0.0007
 
+if len(threshold)==1 and len(amountRate)==1:
+    file = open('transactionLog.txt', 'w')  # opening a file
+
+feeRate = 0.0007
 capital = 10000
 balMax = 0
 balCurr = 0
