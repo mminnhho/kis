@@ -11,10 +11,10 @@ import pandas as pd
 
 file = open('transactionLog.txt', 'w')  # opening a file
 
-dfQ = pd.read_csv("tqqq_5min.csv")
-dfM = pd.read_csv("tmf_5min.csv")
+dfQ = pd.read_csv("tqqq.csv")
+dfM = pd.read_csv("tmf.csv")
 
-threshold= [(1/1000) * x for x in range(150,351)]
+threshold= [(1/1000) * x for x in range(1000,2001,10)]
 amountRate = [(1/100) * x for x in range(100,101)]
 feeRate = 0.0007
 

@@ -18,12 +18,12 @@ def sync(tickerA, tickerB):
             srB = dfB.iloc[j]
 
             if srA[0] == srB[0]:
-                dfT = pd.DataFrame({'Date':[srA[0]], 'Open':[srA[1]], 'High':[srA[2]], 'Low':[srA[3]], 'Close':[srA[4]], 'Adj Close':[srA[5]]})
+                dfT = pd.DataFrame({'Date':[srA[0]], 'Open':[srA[1]], 'High':[srA[2]], 'Low':[srA[3]], 'Close':[srA[4]]})
                 dfO = pd.concat([dfO,dfT], ignore_index=True, axis=0)
                 beginPointer = j + 1
 
-#            elif srA[0] < srB[0]:
-            elif srA[0] != srB[0]:
+            if srA[0] < srB[0]:
+#            else:
                 break
 
     dfO.to_csv(tickerA + '.csv', index=False)
@@ -34,7 +34,7 @@ def main(tickerA, tickerB):
     sync(tickerB, tickerA)
 
 
-tickerA = 'tqqq_5min'
-tickerB = 'tmf_5min'
+tickerA = 'tmf'
+tickerB = 'ugl'
 
 main(tickerA, tickerB)
