@@ -23,7 +23,6 @@ def sync(tickerA, tickerB):
                 beginPointer = j + 1
 
             if srA[0] < srB[0]:
-#            else:
                 break
 
     dfO.to_csv(tickerA + '.csv', index=False)
@@ -34,7 +33,7 @@ def main(tickerA, tickerB):
     sync(tickerB, tickerA)
 
 
-tickerA = 'tmf'
-tickerB = 'ugl'
+tickerA = 'tqqq_1m'
+tickerB = 'tmf_1m'
 
 main(tickerA, tickerB)
